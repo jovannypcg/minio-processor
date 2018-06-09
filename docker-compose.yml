@@ -1,0 +1,22 @@
+version: '3'
+services:
+  rabbitmq-service:
+    image: 'rabbitmq:management'
+    env_file: .env
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    hostname: rabbitmq-service
+  requestor-data-api:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: src/main/docker/application/Dockerfile
+      args:
+        artifact: requestor-data-api
+        version: 0.0.1-SNAPSHOT
+    command: /app/wait-for.sh ${RABBITMQ_HOST}:${RABBITMQ_PORT} -- java -Dspring.profiles.active=dev -jar /app/requestor-data-api.jar
+    ports:
+      - '3000:3000'
+    depends_on:
+      - rabbitmq-service
