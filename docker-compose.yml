@@ -20,13 +20,13 @@ services:
       - '5672:5672'
       - '15672:15672'
   minio-server:
-    image: 'minio/minio'
-    environment:
-      MINIO_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
-      MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    env_file: .env
+    build:
+      context: .
+      dockerfile: src/main/docker/minio/Dockerfile
     volumes:
       - minio-data:/data
-    command: server /data
+    command: minio server /data
     ports:
       - '9000:9000'
 
