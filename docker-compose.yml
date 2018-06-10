@@ -26,9 +26,19 @@ services:
       dockerfile: src/main/docker/minio/Dockerfile
     volumes:
       - minio-data:/data
-    command: minio server /data
+    command: /mbin/wait-for-it.sh ${RABBITMQ_HOST}:${RABBITMQ_PORT} -- minio server --config-dir /minio /data
     ports:
       - '9000:9000'
+    depends_on:
+      - rabbitmq-service
+  minio-initializer:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: src/main/docker/mc/Dockerfile
+    command: /mbin/wait-for-it.sh minio-server:9000 -- sh /mbin/minio-initializer.sh
+    depends_on:
+      - minio-server
 
 volumes:
   minio-data:
