@@ -4,7 +4,7 @@ Listens for incoming Message Queue messages that are uploaded data to minio.
 
 ## Setup
 
-The necessary stack was dockerized, so that it is easier to start up the API. The stack includes: *RabbitMQ*, *Minio* and the *Spring Boot* application. (*Cassandra* is going to be included into the stack in the near future).
+The necessary stack was dockerized, so that it is easier to start up the API. The stack includes: *RabbitMQ*, *Minio*, *Cassandra* and the *Spring Boot* application.
 
 ###  Docker Compose
 
@@ -14,6 +14,7 @@ The whole stack is integrated with Docker Compose, it has the following services
 * **rabbitmq-service**: RabbitMQ instance that is going to be listeting to events in Minio
 * **minio-server**: Minio server, it is configured to have a bucket called *f8-requestor-data* and an event for *.csv* files
 * **minio-initializer**: Runs an image of *mc*, the Minio Client that creates the bucket and event
+* **cassandra-service**: Cassandra instance as a reactive datasource
 
 The *requestor-data-api*, *minio-server* and *minio-initializer* services depends on *rabbitmq-service*. For this reason, the `wait-for-it.sh` script was included, this way the dependent services will not be able to start up until *rabbitmq-service* has started.
 

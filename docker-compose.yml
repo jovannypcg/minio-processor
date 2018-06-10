@@ -13,6 +13,7 @@ services:
       - '3000:3000'
     depends_on:
       - rabbitmq-service
+      - cassandra-service
   rabbitmq-service:
     image: 'rabbitmq:management'
     env_file: .env
@@ -39,6 +40,14 @@ services:
     command: /mbin/wait-for-it.sh minio-server:9000 -- sh /mbin/minio-initializer.sh
     depends_on:
       - minio-server
+  cassandra-service:
+    image: 'cassandra:3.11.2'
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
 
 volumes:
   minio-data:

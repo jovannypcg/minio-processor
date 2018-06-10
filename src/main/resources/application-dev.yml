@@ -4,3 +4,8 @@ spring:
     port: ${RABBITMQ_PORT}
     username: ${RABBITMQ_DEFAULT_USER}
     password: ${RABBITMQ_DEFAULT_PASS}
+
+cassandra:
+  port: ${CASSANDRA_PORT}
+  keyspace-name: ${CASSANDRA_KEYSPACE}
+  host: ${CASSANDRA_HOST}
