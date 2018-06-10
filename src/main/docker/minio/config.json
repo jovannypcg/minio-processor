@@ -28,7 +28,7 @@
         "deliveryMode": 0,
         "mandatory": false,
         "immediate": false,
-        "durable": true,
+        "durable": false,
         "internal": false,
         "noWait": false,
         "autoDeleted": false
