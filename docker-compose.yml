@@ -8,7 +8,7 @@ services:
       args:
         artifact: requestor-data-api
         version: 0.0.1-SNAPSHOT
-    command: /app/wait-for.sh ${RABBITMQ_HOST}:${RABBITMQ_PORT} -- java -Dspring.profiles.active=dev -jar /app/requestor-data-api.jar
+    command: /app/wait-for.sh cassandra-service:9042 -t 0 -- java -Dspring.profiles.active=dev -jar /app/requestor-data-api.jar
     ports:
       - '3000:3000'
     depends_on:
@@ -41,13 +41,22 @@ services:
     depends_on:
       - minio-server
   cassandra-service:
-    image: 'cassandra:3.11.2'
-    expose:
-      - 7000
-      - 7001
-      - 7199
-      - 9042
-      - 9160
+    build:
+      context: .
+      dockerfile: src/main/docker/cassandra/Dockerfile
+    ports:
+      - '7000:7000'
+      - '7001:7001'
+      - '7199:7199'
+      - '9042:9042'
+      - '9160:9160'
+  cassandra-initializer:
+    build:
+      context: .
+      dockerfile: src/main/docker/cassandra/Dockerfile
+    command: wait-for-it.sh cassandra-service:9042 -t 0 -- cassandra-initializer.sh
+    depends_on:
+      - cassandra-service
 
 volumes:
   minio-data:

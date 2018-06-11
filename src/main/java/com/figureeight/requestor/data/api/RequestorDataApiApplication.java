@@ -8,9 +8,7 @@ import org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoCo
 import org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDataAutoConfiguration;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = { CassandraReactiveDataAutoConfiguration.class,
-        CassandraAutoConfiguration.class,
-        CassandraDataAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { CassandraDataAutoConfiguration.class })
 public class RequestorDataApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(RequestorDataApiApplication.class, args);

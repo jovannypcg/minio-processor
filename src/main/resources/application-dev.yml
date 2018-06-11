@@ -7,5 +7,6 @@ spring:
 
 cassandra:
   port: ${CASSANDRA_PORT}
-  keyspace-name: ${CASSANDRA_KEYSPACE}
-  host: ${CASSANDRA_HOST}
+  keyspace: ${CASSANDRA_KEYSPACE}
+  contactpoints: ${CASSANDRA_CONTACTPOINTS}
+  base-packages: ${CASSANDRA_BASE_PACKAGES}
